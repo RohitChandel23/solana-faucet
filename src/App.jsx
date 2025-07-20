@@ -13,6 +13,8 @@ import { clusterApiUrl } from "@solana/web3.js";
 import "@solana/wallet-adapter-react-ui/styles.css";
 
 import RequestAirdrop from "./component/RequestAirdrop";
+import SendToken from "./component/SendToken";
+import SignMessage from "./component/SignMessage";
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
               <WalletDisconnectButton />
             </div>
             <RequestAirdrop/>
+            <SendToken/>
+            <SignMessage/>
           </WalletModalProvider>
         </WalletProvider>
       </ConnectionProvider>

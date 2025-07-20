@@ -5,48 +5,44 @@ import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 function RequestAirdrop() {
   const [solAmount, setSolAmount] = useState(0);
   const [userBalance, setUserBalance] = useState();
-    const wallet = useWallet();
-    const {connection} = useConnection();
+  const wallet = useWallet();
+  const { connection } = useConnection();
 
-    useEffect(()=>{
-        if(!wallet.publicKey)
-            return;
-        getBalance();
-    })
-
-    async function getBalance(){
-        
-        try{
-            const balance = await connection.getBalance(wallet.publicKey);
-            setUserBalance(balance/LAMPORTS_PER_SOL);
-        }
-        catch(e){
-        alert("something went wrong")
-    }
-    }
-
-    
-  async function requestAirdrop() {
-    try{
-    await connection.requestAirdrop(wallet.publicKey, solAmount * LAMPORTS_PER_SOL)
-    //to & ammount
+  useEffect(() => {
+    if (!wallet.publicKey) return;
     getBalance();
-    alert(`Received  ${solAmount} sol`);
+  });
 
-    }
-    catch(err){
-        if(!wallet.publicKey){alert("connect your waller")}
-        else if(solAmount <= 0)
-            alert('amount should be greater than equal to 0')
-        else
-        alert(err)
+  async function getBalance() {
+    try {
+      const balance = await connection.getBalance(wallet.publicKey);
+      setUserBalance(balance / LAMPORTS_PER_SOL);
+    } catch (e) {
+      alert("something went wrong");
     }
   }
 
+  async function requestAirdrop() {
+    try {
+      await connection.requestAirdrop(
+        wallet.publicKey,
+        solAmount * LAMPORTS_PER_SOL
+      );
+      //to & ammount
+      getBalance();
+      alert(`Received  ${solAmount} sol`);
+    } catch (err) {
+      if (!wallet.publicKey) {
+        alert("connect your waller");
+      } else if (solAmount <= 0)
+        alert("amount should be greater than equal to 0");
+      else alert(err);
+    }
+  }
 
   return (
     <div>
-        <p>{userBalance}</p>
+      <p>{userBalance}</p>
       <label>enter wallet address</label>
       <input
         type="text"
